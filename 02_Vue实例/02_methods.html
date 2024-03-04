@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <!-- 引入vue.js 生产环境版本 -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 试图不会更新 -->
+        <div>{{title}}</div>
+        <button v-on:click="changeTitle">改变title</button>
+    </div>
+    <script>
+        var data = {
+            title:'方法',
+            show:false
+        }
+
+        // 冻结对象，阻止更新对象里面的属性
+        // Object.freeze(data)
+
+        var vm = new Vue({
+            el:"#app",
+            data:data,
+            methods:{
+                changeTitle(){
+                    this.show = !this.show
+                    if(this.show){
+                        this.title = '新方法'
+                    }else{
+                        this.title = '旧方法'
+                    }
+                }
+            }
+        })
+
+        console.log(vm.$data === data); // true
+        console.log(vm.$el === document.getElementById("app")); // true
+
+        // 值改变，watch事件执行
+        vm.$watch('title',function(oldValue,newValue){
+            console.log('oldValue',oldValue);
+            console.log('newValue',newValue);
+        })
+        
+    </script>
+</body>
+</html>
