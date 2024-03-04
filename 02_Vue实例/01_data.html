@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+       <!-- 引入vue.js 生产环境版本 -->
+       <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="title">{{title}}</div>
+        <div class="description" v-if="false">{{description || '非响应式'}}</div>
+    </div>
+    <script>
+        // 自定义数据对象
+        var data = {
+            title:'vue实例'
+        }
+
+        // 使用Object.freeze方法，会阻止修改data对象，导致响应式不生效
+        Object.freeze(data)
+        
+        // 创建vue实例
+        var vm = new Vue({
+            el:"#app",
+            data:data
+        })
+
+        // 获取vm实例上的property
+        console.log(vm.title == data.title); // true
+
+        // 当这些数据改变时，视图会进行重渲染。实例创建时就已经存在于property才是响应式的
+        // 设置property会影响源数据
+        vm.title = '修改vue实例1'
+        console.log(data.title);
+
+        // 反之亦然
+        data.title = '修改vue实例2'
+        console.log(vm.title);
+
+        // 非响应式，修改页面不会更新数据
+        vm.description = '非响应式描述'
+
+    </script>
+</body>
+</html>
