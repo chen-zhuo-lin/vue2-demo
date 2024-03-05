@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入vue.js 生产环境版本 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{message}}</div>
+        <div>Computed:{{reversedMessage}}</div>
+        <div>Methods:{{doSomething()}}</div>
+        <button @click="message=String(Math.random()),lastName='a',getFullName='bar foo'">修改</button>
+        <div>{{fullName}}</div>
+        <div>{{getFullName}}</div>
+        <div>{{names}}</div>
+    </div>
+
+    <script>
+        const data = {
+            message: 'Hello Worl1d!',
+            fullName: 'Foo Bar',
+            firstName: 'Foo',
+            lastName: 'Bar',
+            names:''
+        }
+        // 创建vue实例
+        const vm = new Vue({
+            el: "#app",
+            data: data,
+            // 数据不更新，也会一直调用方法
+            methods: {
+                doSomething() {
+                    return this.message.split('').reverse().join('')
+                }
+            },
+            // 数据不更新，会一直读缓存
+            computed: {
+                reversedMessage() {
+                    // this指向vm实例
+                    console.log('computed');
+                    return this.message.split('').reverse().join('')
+                },
+                getFullName:{
+                    get(){
+                        return this.firstName + ' ' + this.lastName
+                    },
+                    set(newValue){
+                        const names = newValue.split(' ')
+                        this.firstName = names[0]
+                        this.lastName = names[1]
+                    }
+                }
+            },
+            watch: {
+                // 代码是命令式且重复的
+                firstName(val) {
+                    this.fullName = val + ' ' + this.lastName
+                    console.log('first:'+this.fullName);
+                },
+                lastName(val) {
+                    this.fullName = this.firstName + ' ' + val
+                    console.log('second:'+this.fullName);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
