@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入vue.js 生产环境版本 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            {{title}}
+        </div>
+        <todo-item v-if="show"></todo-item>
+        <button @click="title = 'abcd',show=!show">点击改变</button>
+    </div>
+    <script>
+        Vue.component('todo-item', {
+            template: '<li>{{`115412124`}}</li>',
+            props: ['todo'],
+            destroyed(){
+                console.log('destroyed：组件销毁', this.title);
+            },
+            destroy(){
+                console.log('destroy：组件销毁', this.title);
+            }
+        })
+        // 生命周期钩子函数
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                title: 'title',
+                show: true
+            },
+            // 实例创建完成之前，一般用于加班动画
+            beforeCreate() {
+                // this指向vm对象,但是数据和方法还没创建完成
+                console.log('beforeCreate：实例未创建完成', this.title);
+            },
+            // 实例创建完成，执行
+            created() {
+                // this指向vm对象
+                console.log('created:实例创建完成', this.title);
+                // 页面还未渲染未显示，拿不到DOM元素
+                // 判断是否有vm.$el，如果有，继续往下
+                console.log(this.$el);
+                // 如果没有，判断是不是有vm.$mount，二者取其一
+                console.log(this.$mount);
+                // 接着判断有没有template，如果有，触发渲染函数，进入beforeMount
+            },
+            beforeMount() {
+                // 将要挂载，页面仍无显示，接着创建vm.$el，接着触发mounted
+                console.log('beforeMount:', this.$el);
+            },
+            mounted() {
+                // 此时可以操作dom元素
+                const domEl = document.querySelector('.container')
+                console.log('Dom元素：', domEl);
+                domEl.innerHTML = '12345'
+            },
+            // 保持数据与页面的同步，会频繁触发，一般不要进行操作。
+            beforeUpdate(val) {
+                console.log('beforeUpdate', this.title);
+            },
+            updated() {
+                console.log('update：', this.title);
+            },
+        })
+    </script>
+</body>
+
+</html>
