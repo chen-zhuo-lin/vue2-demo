@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入vue.js 生产环境版本 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 参数 -->
+        <a v-bind:href="href">页面跳转动态地址</a>
+
+        <!-- 监听dom事件 -->
+        <a v-on:click="doSomething">监听事件</a>
+
+        <!-- 动态参数 -->
+        <a v-bind:[attr]="target">11</a>
+
+        <!-- 修饰符 -->
+        <div v-bind:click="console.log(1)" style="width: 200px;height: 200px;text-align: center;line-height: 200px;background-color: pink;">1
+            <!-- 阻止向上冒泡 -->
+            <!-- 缩写 -->
+            <div @click.stop="console.log(2)">2</div>
+        </div>
+    </div>
+    <script>
+        const data = {
+            title: '标题',
+            href: 'www.baidu.com',
+            target: '_blank',
+            attr: 'href'
+        }
+        // 创建vue实例
+        const vm = new Vue({
+            el: "#app",
+            data: data,
+            methods: {
+                doSomething() {
+                    console.log(1111);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
