@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入vue.js 生产环境版本 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <style>
+        #rawId{
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            text-align: center;
+            line-height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 文本 -->
+        <div>Title：{{title}}</div>
+        <!-- 执行一次性的值，数据更新时，插值的内容不会更新 -->
+        <div v-once>Title：{{title}}</div>
+
+        <!-- 原始HTML -->
+        <!-- 只会识别内容，不会识别标签 -->
+        <div>{{rawHtml}}</div>
+        <!-- 会识别标签 -->
+        <div v-html="rawHtml"></div>
+
+        <!-- Attribute -->
+        <div :id="rawId">{{rawId}}</div>
+
+        <!-- 使用JS表达式 -->
+        <button @click="title='改变标题',title=title.split('').reverse().join('')">改变标题</button>
+    </div>
+    <script>
+        const data = {
+            title: '标题',
+            rawHtml:'<h3>我是h3标题</h3>',
+            rawId:'rawId'
+        }
+        // 创建vue实例
+        const vm = new Vue({
+            el: "#app",
+            data: data
+        })
+    </script>
+</body>
+
+</html>
